@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sigma Hub</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<style>
+:root{
+    --bg:#020617;
+    --bg2:#0f172a;
+    --card:rgba(255,255,255,.06);
+    --card2:rgba(255,255,255,.1);
+    --text:#ffffff;
+    --muted:#a7b0c0;
+    --line:rgba(255,255,255,.14);
+    --accent:#ffffff;
+    --shadow:0 12px 30px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:Arial, sans-serif;
+    color:var(--text);
+    background:
+        radial-gradient(circle at top, #172554 0%, #020617 45%, #000 100%);
+    overflow-x:hidden;
+}
+
+/* STAR BG */
+.stars{
+    position:fixed;
+    inset:0;
+    z-index:-2;
+    pointer-events:none;
+}
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:#fff;
+    border-radius:50%;
+    opacity:.85;
+    animation:fall linear infinite;
+}
+@keyframes fall{
+    from{ transform:translateY(-10px); opacity:0; }
+    20%{opacity:1}
+    to{ transform:translateY(105vh); opacity:.2; }
+}
+
+/* WRAPPER */
+.page{
+    width:min(100%, 860px);
+    margin:0 auto;
+    padding:24px 14px 30px;
+}
+
+/* HERO */
+.hero{
+    position:relative;
+    overflow:hidden;
+    text-align:center;
+    padding:26px 18px 22px;
+    border:1px solid var(--line);
+    border-radius:24px;
+    background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+    box-shadow:var(--shadow);
+    backdrop-filter: blur(10px);
+}
+.hero::before{
+    content:"";
+    position:absolute;
+    width:260px;
+    height:260px;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    background:rgba(255,255,255,.06);
+    filter:blur(30px);
+    border-radius:50%;
+    z-index:0;
+}
+.hero > *{ position:relative; z-index:1; }
+
+.logo{
+    width:92px;
+    height:92px;
+    border-radius:50%;
+    object-fit:cover;
+    border:1px solid rgba(255,255,255,.25);
+    box-shadow:0 0 0 6px rgba(255,255,255,.06), 0 0 22px rgba(255,255,255,.22);
+    margin-bottom:14px;
+}
+
+.title{
+    font-family:'Press Start 2P', cursive;
+    font-size:18px;
+    line-height:1.6;
+    margin:0 0 10px;
+    text-shadow:0 0 18px rgba(255,255,255,.18);
+}
+
+.subtitle{
+    margin:0 auto;
+    max-width:620px;
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.7;
+}
+
+/* SOCIAL */
+.social{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    margin:14px 0 18px;
+}
+.social a{
+    width:48px;
+    height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid var(--line);
+    border-radius:14px;
+    text-decoration:none;
+    background:rgba(255,255,255,.05);
+    box-shadow:var(--shadow);
+    transition:.2s ease;
+}
+.social a:hover{
+    transform:translateY(-2px);
+    background:rgba(255,255,255,.09);
+}
+.tiktok{ color:#25F4EE; }
+.youtube{ color:#FF3B30; }
+
+/* TABS */
+.tabs{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    margin:0 0 16px;
+}
+.tab{
+    min-width:140px;
+    padding:12px 18px;
+    border:1px solid var(--line);
+    border-radius:14px;
+    background:rgba(255,255,255,.05);
+    color:var(--text);
+    cursor:pointer;
+    font-weight:700;
+    box-shadow:var(--shadow);
+    transition:.2s ease;
+}
+.tab:hover{ transform:translateY(-1px); }
+.tab.active{
+    background:#fff;
+    color:#000;
+    border-color:#fff;
+}
+
+/* SECTION */
+.section{
+    display:none;
+}
+.section.active{
+    display:block;
+}
+
+.section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:6px 2px 12px;
+    color:var(--muted);
+    font-size:13px;
+}
+.badge{
+    padding:6px 10px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    background:rgba(255,255,255,.05);
+}
+
+/* CARDS */
+.list{
+    display:grid;
+    gap:12px;
+}
+.card{
+    display:grid;
+    grid-template-columns:64px 1fr auto;
+    gap:12px;
+    align-items:center;
+    padding:12px;
+    border:1px solid var(--line);
+    border-radius:18px;
+    background:var(--card);
+    box-shadow:var(--shadow);
+    transition:.2s ease;
+}
+.card:hover{
+    transform:translateY(-2px);
+    background:var(--card2);
+}
+
+.card img{
+    width:58px;
+    height:58px;
+    border-radius:16px;
+    object-fit:cover;
+    border:1px solid rgba(255,255,255,.16);
+}
+
+.info{
+    min-width:0;
+}
+.name{
+    font-size:15px;
+    font-weight:800;
+    margin:0 0 6px;
+    word-break:break-word;
+}
+.desc{
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.5;
+    word-break:break-word;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+}
+
+.btn{
+    border:1px solid var(--line);
+    background:transparent;
+    color:#fff;
+    padding:9px 12px;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:700;
+    transition:.2s ease;
+    text-decoration:none;
+    white-space:nowrap;
+}
+.btn:hover{
+    transform:translateY(-1px);
+    background:rgba(255,255,255,.08);
+}
+.btn.primary{
+    background:#fff;
+    color:#000;
+    border-color:#fff;
+}
+
+/* TOAST */
+.toast{
+    position:fixed;
+    right:16px;
+    bottom:16px;
+    padding:12px 16px;
+    border-radius:14px;
+    border:1px solid var(--line);
+    background:rgba(2,6,23,.92);
+    color:#fff;
+    box-shadow:var(--shadow);
+    display:none;
+    z-index:50;
+}
+
+/* FOOTER */
+.footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:12px;
+    padding:18px 6px 0;
+}
+
+/* MOBILE */
+@media (max-width:640px){
+    .page{ padding:14px 10px 22px; }
+    .hero{ padding:22px 14px 18px; border-radius:20px; }
+    .title{ font-size:14px; }
+    .subtitle{ font-size:13px; }
+    .tabs{ gap:8px; }
+    .tab{
+        min-width:0;
+        flex:1;
+        padding:11px 10px;
+    }
+    .card{
+        grid-template-columns:56px 1fr;
+    }
+    .actions{
+        grid-column:1 / -1;
+        justify-content:stretch;
+    }
+    .actions .btn{
+        flex:1;
+        text-align:center;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="stars" id="stars"></div>
+
+<div class="page">
+    <section class="hero">
+        <img
+            src="https://i.postimg.cc/Pxv2W21g/file-0000000071107209af30c17723e63b57.png"
+            alt="Sigma Hub Logo"
+            class="logo"
+        >
+        <h1 class="title">Sigma Hub</h1>
+        <p class="subtitle">
+            Fl va tim di<br>
+            1k fl ko vuot link nua nhe
+        </p>
+    </section>
+
+    <div class="social">
+        <a href="#" class="tiktok" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="#" class="youtube" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('script', this)">Script</button>
+        <button class="tab" onclick="switchTab('client', this)">Client</button>
+    </div>
+
+    <section class="section active" id="script">
+        <div class="section-head">
+            <span>Danh sách Script</span>
+            <span class="badge" id="scriptCount">0 items</span>
+        </div>
+        <div class="list" id="scriptList"></div>
+    </section>
+
+    <section class="section" id="client">
+        <div class="section-head">
+            <span>Danh sách Client</span>
+            <span class="badge" id="clientCount">0 items</span>
+        </div>
+        <div class="list" id="clientList"></div>
+    </section>
+
+    <div class="footer">© 2026 Sigma Hub</div>
+</div>
+
+<div class="toast" id="toast">Copied!</div>
+
+<script>
+/* STAR BACKGROUND */
+const stars = document.getElementById("stars");
+for (let i = 0; i < 70; i++) {
+    const s = document.createElement("div");
+    s.className = "star";
+    s.style.left = Math.random() * 100 + "vw";
+    s.style.animationDuration = (Math.random() * 3 + 2.5) + "s";
+    s.style.animationDelay = (Math.random() * 4) + "s";
+    s.style.opacity = (Math.random() * 0.7 + 0.3);
+    stars.appendChild(s);
+}
+
+/* EDIT DATA HERE */
+const scriptsData = [
+    {
+        name: "Blox Fruits Auto Farm",
+        desc: "Auto farm level nhanh, gọn, dễ dùng.",
+        link: "https://script.com/1"
+    },
+    {
+        name: "Aim Lock Pro",
+        desc: "Khoá tâm ổn định, tối ưu cho combat.",
+        link: "https://script.com/2"
+    },
+    {
+        name: "ESP Full",
+        desc: "Hiển thị mục tiêu rõ ràng hơn.",
+        link: "https://script.com/3"
+    },
+    {
+        name: "Fast Attack",
+        desc: "Tăng tốc độ ra đòn, phản hồi nhanh.",
+        link: "https://script.com/4"
+    },
+    {
+        name: "Teleport Utility",
+        desc: "Di chuyển nhanh tới vị trí cần thiết.",
+        link: "https://script.com/5"
+    },
+    {
+        name: "Universal Hub",
+        desc: "Bộ công cụ tổng hợp nhiều tính năng.",
+        link: "https://script.com/6"
+    }
+];
+
+const clientsData = [
+    {
+        name: "Delta Executor",
+        desc: "Client mobile phổ biến, giao diện dễ dùng.",
+        link: "https://client.com/1"
+    },
+    {
+        name: "Fluxus",
+        desc: "Client gọn nhẹ, phù hợp cho thiết bị yếu hơn.",
+        link: "https://client.com/2"
+    },
+    {
+        name: "Arceus X",
+        desc: "Client quen thuộc cho Android.",
+        link: "https://client.com/3"
+    },
+    {
+        name: "Codex",
+        desc: "Client có giao diện sạch và dễ thao tác.",
+        link: "https://client.com/4"
+    },
+    {
+        name: "Vegax",
+        desc: "Một lựa chọn khác để test script nhanh.",
+        link: "https://client.com/5"
+    },
+    {
+        name: "Hydrogen",
+        desc: "Client tối giản, nhìn gọn và rõ.",
+        link: "https://client.com/6"
+    }
+];
+
+function renderList(containerId, data, countId) {
+    const container = document.getElementById(containerId);
+    const count = document.getElementById(countId);
+
+    container.innerHTML = "";
+    count.textContent = `${data.length} items`;
+
+    data.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+            <img src="https://i.postimg.cc/Pxv2W21g/file-0000000071107209af30c17723e63b57.png" alt="">
+            <div class="info">
+                <div class="name">${item.name}</div>
+                <div class="desc">${item.desc}</div>
+            </div>
+            <div class="actions">
+                <button class="btn primary" onclick="copyText('${item.link}')">Copy</button>
+                <a class="btn" href="${item.link}" target="_blank" rel="noopener">Open</a>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+function copyText(text) {
+    const toast = document.getElementById("toast");
+
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+            showToast("Copied!");
+        }).catch(() => {
+            fallbackCopy(text);
+        });
+    } else {
+        fallbackCopy(text);
+    }
+
+    function fallbackCopy(value) {
+        const input = document.createElement("input");
+        input.value = value;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        input.remove();
+        showToast("Copied!");
+    }
+
+    function showToast(message) {
+        toast.textContent = message;
+        toast.style.display = "block";
+        clearTimeout(window.__toastTimer);
+        window.__toastTimer = setTimeout(() => {
+            toast.style.display = "none";
+        }, 1800);
+    }
+}
+
+function switchTab(tabId, el) {
+    document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+    document.getElementById(tabId).classList.add("active");
+
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    el.classList.add("active");
+}
+
+renderList("scriptList", scriptsData, "scriptCount");
+renderList("clientList", clientsData, "clientCount");
+</script>
+</body>
+</html>
